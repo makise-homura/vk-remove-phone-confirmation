@@ -1,19 +1,25 @@
 // ==UserScript==
 // @name         VK Remove phone confirmation dialog
-// @version      0.2
+// @version      0.3
 // @description  Remove annoying phone confirmation dialog randomly blocking some VK pages (it has no close button anymore)
 // @author       makise-homura
 // @match        https://vk.com/*
 // @grant        none
 // ==/UserScript==
 
-var e = document.getElementById('react_rootCheckValidationPhone');
-if (e !== null)
+new MutationObserver((m) =>
 {
-    e.parentElement.removeChild(e);
-}
+    m.forEach(() =>
+    {
+        var e = document.querySelector('#react_rootCheckValidationPhone')
+        if (e !== null)
+        {
+            e.parentElement.removeChild(e);
+        }
+    });
+}).observe(document.body, {childList: true});
 
-var o = new MutationObserver((m) =>
+new MutationObserver((m) =>
 {
     m.forEach(() =>
     {
@@ -22,6 +28,4 @@ var o = new MutationObserver((m) =>
             document.body.style.position = '';
         }
     });
-});
-
-o.observe(document.body, {attributes: true, attributeFilter: ['style']});
+}).observe(document.body, {attributes: true, attributeFilter: ['style']});
